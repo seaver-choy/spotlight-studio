@@ -1,0 +1,33 @@
+name: Bug report
+description: Something isn't working
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. Record a display with the camera on\n2. …"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Spotlight Studio version
+      placeholder: 0.1.0
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version and Mac model
+      placeholder: macOS 26.1, MacBook Pro M3
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: Screenshots, project.json, console output…

@@ -1,0 +1,68 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ink-950: #0b0b0f;
+  --color-ink-900: #111117;
+  --color-ink-850: #16161d;
+  --color-ink-800: #1c1c25;
+  --color-ink-700: #272732;
+  --color-ink-600: #363644;
+  --color-ink-500: #4b4b5c;
+  --color-ink-400: #6e6e82;
+  --color-ink-300: #9a9aae;
+  --color-ink-200: #c7c7d4;
+  --color-ink-100: #ececf3;
+  --color-accent: #7c6cff;
+  --color-accent-strong: #6a58ff;
+  --color-rec: #ff3b5c;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--color-ink-950);
+  color: var(--color-ink-100);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  overflow: hidden;
+}
+
+html[data-route='bar'] body,
+html[data-route='bubble'] body,
+html[data-route='countdown'] body {
+  background: transparent;
+}
+
+.drag {
+  -webkit-app-region: drag;
+}
+.no-drag {
+  -webkit-app-region: no-drag;
+}
+
+input,
+textarea,
+select {
+  user-select: text;
+}
+
+input[type='range'] {
+  accent-color: var(--color-accent);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-ink-600);
+  border-radius: 4px;
+}

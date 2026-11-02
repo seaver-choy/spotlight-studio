@@ -1,0 +1,41 @@
+appId: tech.spotlightstudio.app
+productName: Spotlight Studio
+copyright: Copyright © 2026 Spotlight Studio contributors
+directories:
+  buildResources: build
+  output: dist
+files:
+  - out/**
+  - package.json
+  - '!**/*.map'
+asarUnpack:
+  - node_modules/uiohook-napi/**
+mac:
+  category: public.app-category.video
+  icon: build/icon.png
+  target:
+    - target: dmg
+      arch: [arm64, x64]
+    - target: zip
+      arch: [arm64, x64]
+  hardenedRuntime: true
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  minimumSystemVersion: '13.0'
+  artifactName: Spotlight-Studio-${version}-${arch}-mac.${ext}
+  extendInfo:
+    NSCameraUsageDescription: Spotlight Studio records your camera so your face can appear in your demo videos.
+    NSMicrophoneUsageDescription: Spotlight Studio records your microphone for voice-over in your demo videos.
+    NSScreenCaptureUsageDescription: Spotlight Studio records your screen to make demo videos.
+# Notarization runs only when APPLE_ID / APPLE_APP_SPECIFIC_PASSWORD / APPLE_TEAM_ID are set.
+dmg:
+  artifactName: Spotlight-Studio-${version}-${arch}.${ext}
+win:
+  target: nsis
+linux:
+  target: AppImage
+  category: Video
+publish:
+  provider: github
+  owner: seaver-choy
+  repo: spotlight-studio
