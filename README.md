@@ -13,6 +13,7 @@
   <a href="https://github.com/seaver-choy/spotlight-studio/releases/latest">Download for macOS</a> ·
   <a href="#features">Features</a> ·
   <a href="#edit-with-ai">Edit with AI</a> ·
+  <a href="docs/google-drive.md">Google Drive</a> ·
   <a href="CONTRIBUTING.md">Contributing</a>
 </p>
 
@@ -45,6 +46,9 @@
 **Export**
 - MP4 (H.264 + AAC) at 720p, 1080p, 1440p or 4K, at 30 or 60 fps, using hardware encoding.
 - The exporter and the preview use the same renderer, so the export matches the preview exactly.
+
+**Share**
+- **Upload to Google Drive** when you export. The share link is copied to your clipboard when the upload finishes, like Loom. The app can only access files it uploads (`drive.file`). See [docs/google-drive.md](docs/google-drive.md).
 
 ![Exported frames: normal, auto-zoom with a click ripple, and the keyboard shortcut overlay](docs/images/export-frames.png)
 
@@ -109,6 +113,8 @@ pnpm test           # unit tests
 pnpm test:e2e       # end-to-end test (needs ffmpeg to generate a fixture recording)
 pnpm dist:mac       # build .dmg files into dist/
 ```
+
+To enable Google Drive upload in your own build, create a Google OAuth "Desktop app" client and put its ID and secret in `.env.local`. [docs/google-drive.md](docs/google-drive.md) has the steps.
 
 ## Roadmap
 

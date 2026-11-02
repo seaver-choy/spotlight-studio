@@ -54,7 +54,17 @@ const api: Api = {
   reveal: (path) => ipcRenderer.invoke('shell:reveal', path),
   watchProject: (folder) => ipcRenderer.invoke('project:watch', folder),
   onProjectChanged: (cb) => subscribe('project:changed', cb),
-  setTitle: (title) => ipcRenderer.send('win:set-title', title)
+  setTitle: (title) => ipcRenderer.send('win:set-title', title),
+  copyText: (text) => ipcRenderer.invoke('clipboard:write', text),
+  openExternal: (url) => ipcRenderer.invoke('shell:open-external', url),
+
+  driveStatus: () => ipcRenderer.invoke('drive:status'),
+  driveConnect: () => ipcRenderer.invoke('drive:connect'),
+  driveCancelConnect: () => ipcRenderer.invoke('drive:cancel-connect'),
+  driveDisconnect: () => ipcRenderer.invoke('drive:disconnect'),
+  driveUpload: (uploadId, path, opts) => ipcRenderer.invoke('drive:upload', uploadId, path, opts),
+  driveCancelUpload: (uploadId) => ipcRenderer.invoke('drive:cancel-upload', uploadId),
+  onDriveProgress: (cb) => subscribe('drive:progress', cb)
 }
 
 contextBridge.exposeInMainWorld('api', api)

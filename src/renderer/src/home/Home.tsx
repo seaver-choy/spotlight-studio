@@ -7,6 +7,7 @@ import type {
   RecordingConfig,
   RecordingSummary
 } from '@shared/ipc'
+import { DriveButton, useDrive } from '../components/drive'
 import { Button, Field, SectionTitle, Select, Toggle, cx, formatTime } from '../components/ui'
 
 const PREFS_KEY = 'spotlight.recordPrefs'
@@ -88,6 +89,7 @@ export function Home(): ReactNode {
   const [error, setError] = useState<string | null>(null)
   const [starting, setStarting] = useState(false)
   const camVideo = useRef<HTMLVideoElement>(null)
+  const drive = useDrive()
 
   const update = useCallback((patch: Partial<Prefs>) => {
     setPrefs((p) => {
@@ -192,6 +194,7 @@ export function Home(): ReactNode {
           Spotlight Studio
         </div>
         <div className="flex gap-1">
+          <DriveButton drive={drive} />
           <Button variant="ghost" size="sm" onClick={() => void openRecording()}>
             <FolderOpen size={14} /> Open…
           </Button>

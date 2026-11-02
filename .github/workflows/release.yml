@@ -22,7 +22,12 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
-      - run: pnpm build
+      - name: Build app
+        env:
+          # Enables "Connect Google Drive" (see docs/google-drive.md). Optional.
+          MAIN_VITE_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          MAIN_VITE_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        run: pnpm build
       - name: Build and publish .dmg files
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

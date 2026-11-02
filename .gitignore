@@ -8,3 +8,5 @@ playwright-report
 tests/fixtures/generated
 .env
 *.tsbuildinfo
+.env.local
+.env.*.local

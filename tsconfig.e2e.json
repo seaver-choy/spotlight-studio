@@ -9,5 +9,5 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["tests/e2e/**/*", "src/shared/ipc.ts"]
+  "include": ["tests/e2e/**/*", "tests/support/**/*", "src/shared/ipc.ts"]
 }

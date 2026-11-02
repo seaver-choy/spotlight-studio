@@ -61,7 +61,9 @@ for (let t = 0; t <= secs * 1000; t += 1000 / 60) {
   ])
 }
 const at = (t) => samples.find((s) => s[0] >= t)
-const clicks = [1500, 1900, 5200].map((t) => ({ t, x: at(t)[1], y: at(t)[2], button: 1 }))
+const clicks = [1500, 1900, 5200]
+  .filter((t) => t < secs * 1000)
+  .map((t) => ({ t, x: at(t)[1], y: at(t)[2], button: 1 }))
 writeFileSync(
   join(out, 'cursor.json'),
   JSON.stringify({ version: 1, samples, clicks, keys: [{ t: 3000, label: '⌘S' }] })

@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react'
+import { useId, type ButtonHTMLAttributes, type ReactNode } from 'react'
 
 export function cx(...parts: Array<string | false | null | undefined>): string {
   return parts.filter(Boolean).join(' ')
@@ -41,16 +41,25 @@ export function Toggle({
   label: ReactNode
   hint?: ReactNode
 }): ReactNode {
+  const id = useId()
   return (
     <label className="flex cursor-pointer items-start justify-between gap-3 py-1.5">
       <span className="flex flex-col">
-        <span className="text-ink-100">{label}</span>
-        {hint && <span className="text-xs text-ink-400">{hint}</span>}
+        <span id={`${id}-label`} className="text-ink-100">
+          {label}
+        </span>
+        {hint && (
+          <span id={`${id}-hint`} className="text-xs text-ink-400">
+            {hint}
+          </span>
+        )}
       </span>
       <button
         type="button"
         role="switch"
         aria-checked={checked}
+        aria-labelledby={`${id}-label`}
+        aria-describedby={hint ? `${id}-hint` : undefined}
         onClick={() => onChange(!checked)}
         className={cx(
           'relative mt-0.5 h-5 w-9 shrink-0 rounded-full transition-colors',

@@ -19,7 +19,12 @@ test.beforeAll(() => {
 test('opens a recording, edits and exports it', async () => {
   const app = await electron.launch({
     args: [root],
-    env: { ...process.env, SPOTLIGHT_OPEN_FOLDER: fixture, SPOTLIGHT_EXPORT_PATH: exportPath }
+    env: {
+      ...process.env,
+      SPOTLIGHT_OPEN_FOLDER: fixture,
+      SPOTLIGHT_EXPORT_PATH: exportPath,
+      SPOTLIGHT_USER_DATA: join(root, 'tests/fixtures/generated/userdata')
+    }
   })
   const win = await app.firstWindow()
   const errors: string[] = []
@@ -88,7 +93,10 @@ test('opens a recording, edits and exports it', async () => {
 })
 
 test('home window renders', async () => {
-  const app = await electron.launch({ args: [root] })
+  const app = await electron.launch({
+    args: [root],
+    env: { ...process.env, SPOTLIGHT_USER_DATA: join(root, 'tests/fixtures/generated/userdata') }
+  })
   const win = await app.firstWindow()
   const errors: string[] = []
   win.on('pageerror', (e) => errors.push(e.message))

@@ -14,6 +14,7 @@ import { basename, dirname, join } from 'node:path'
 import {
   app,
   BrowserWindow,
+  clipboard,
   desktopCapturer,
   dialog,
   globalShortcut,
@@ -30,6 +31,14 @@ import type {
   RecordingConfig,
   RecordingSummary
 } from '@shared/ipc'
+import {
+  driveCancelConnect,
+  driveCancelUpload,
+  driveConnect,
+  driveDisconnect,
+  driveStatus,
+  driveUpload
+} from './drive/driveService'
 import { allowMediaRoot, handleMediaProtocol, registerMediaSchemePrivileges } from './mediaProtocol'
 import {
   cancelRecording,
@@ -50,6 +59,8 @@ import {
 import { getHomeWindow, openEditorWindow, showHomeWindow } from './windows'
 
 app.setName('Spotlight Studio')
+// Test hook: isolate settings/tokens from the real profile.
+if (process.env['SPOTLIGHT_USER_DATA']) app.setPath('userData', process.env['SPOTLIGHT_USER_DATA'])
 registerMediaSchemePrivileges()
 
 const isMac = process.platform === 'darwin'
@@ -299,6 +310,20 @@ function registerIpc(): void {
       console.warn('[watch] failed', err)
     }
   })
+  ipcMain.handle('clipboard:write', (_e, text: string) => clipboard.writeText(text))
+  ipcMain.handle('shell:open-external', (_e, url: string) => {
+    if (/^https:\/\/(drive|docs)\.google\.com\//.test(url)) return shell.openExternal(url)
+  })
+  ipcMain.handle('drive:status', () => driveStatus())
+  ipcMain.handle('drive:connect', () => driveConnect())
+  ipcMain.handle('drive:cancel-connect', () => driveCancelConnect())
+  ipcMain.handle('drive:disconnect', () => driveDisconnect())
+  ipcMain.handle(
+    'drive:upload',
+    (e, uploadId: string, path: string, opts: { name?: string; share: boolean }) =>
+      driveUpload(e.sender, uploadId, path, opts)
+  )
+  ipcMain.handle('drive:cancel-upload', (_e, uploadId: string) => driveCancelUpload(uploadId))
   ipcMain.on('win:set-title', (e, title: string) => {
     BrowserWindow.fromWebContents(e.sender)?.setTitle(title)
   })

@@ -67,6 +67,26 @@ export interface RecordingMeta {
   hasCursor: boolean
 }
 
+export interface DriveStatus {
+  /** False when this build has no Google OAuth client configured. */
+  configured: boolean
+  connected: boolean
+  email: string | null
+}
+
+export interface DriveUploadResult {
+  id: string
+  /** Google Drive web link to the file. */
+  link: string
+  shared: boolean
+}
+
+export interface DriveProgress {
+  uploadId: string
+  sent: number
+  total: number
+}
+
 export const MEDIA_SCHEME = 'ss-media'
 
 /** URL the renderer can use to stream a local file (supports range requests). */
@@ -118,6 +138,21 @@ export interface Api {
   watchProject(folder: string): Promise<void>
   onProjectChanged(cb: (text: string) => void): () => void
   setTitle(title: string): void
+  copyText(text: string): Promise<void>
+  openExternal(url: string): Promise<void>
+
+  // Google Drive
+  driveStatus(): Promise<DriveStatus>
+  driveConnect(): Promise<DriveStatus>
+  driveCancelConnect(): Promise<void>
+  driveDisconnect(): Promise<DriveStatus>
+  driveUpload(
+    uploadId: string,
+    path: string,
+    opts: { name?: string; share: boolean }
+  ): Promise<DriveUploadResult>
+  driveCancelUpload(uploadId: string): Promise<void>
+  onDriveProgress(cb: (p: DriveProgress) => void): () => void
 }
 
 declare global {
